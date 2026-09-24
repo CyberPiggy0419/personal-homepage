@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>朱赫逍凌 · 个人主页</title>
+<meta name="description" content="朱赫逍凌的个人主页 —— 上海交通大学英语（比较文学与跨文化）专业，中英双语简历。">
+<link rel="icon" href="assets/favicon.png">
+<meta name="theme-color" content="#faf9f6">
+<script>
+  // 首屏前定主题，避免闪烁 / set theme before paint to avoid a flash
+  try {
+    var q = new URLSearchParams(location.search).get('theme');
+    var t = (q === 'dark' || q === 'light') ? q : localStorage.getItem('zhxl.theme');
+    if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.dataset.theme = t;
+    document.querySelector('meta[name=theme-color]').setAttribute('content', t === 'dark' ? '#121114' : '#faf9f6');
+  } catch (e) {}
+</script>
+<style>
+  /* ── tokens ───────────────────────────────────────────────────────── */
+  :root {
+    color-scheme: light;
+    --paper:      #faf9f6;
+    --surface:    #ffffff;
+    --ink:        #17161a;
+    --ink-soft:   #3b3941;
+    --muted:      #6c6a72;
+    --hairline:   #e3e0d8;
+    --hairline-2: #efece5;
+    --accent:     #9e1b32;
+    --accent-ink: #7d1428;
+    --accent-wash:#f6ecee;
+    --shadow:     0 1px 2px rgba(23,22,26,.05), 0 12px 32px -18px rgba(23,22,26,.28);
+    --serif: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", "Songti TC", Georgia, "Times New Roman", serif;
+    --sans:  system-ui, -apple-system, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    --mono:  "Cascadia Mono", "JetBrains Mono", ui-monospace, Consolas, "SFMono-Regular", monospace;
+    --maxw: 1120px;
+    --gutter: clamp(20px, 5vw, 56px);
+  }
+  html[data-theme="dark"] {
+    color-scheme: dark;
+    --paper:      #121114;
+    --surface:    #191820;
+    --ink:        #ece9e4;
+    --ink-soft:   #cfcbd2;
+    --muted:      #9d99a4;
+    --hairline:   #2b2a33;
+    --hairline-2: #232229;
+    --accent:     #e57e93;
+    --accent-ink: #f0a3b3;
+    --accent-wash:#26191d;
+    --shadow:     0 1px 2px rgba(0,0,0,.4), 0 14px 36px -20px rgba(0,0,0,.7);
+  }
+
+  /* ── base ─────────────────────────────────────────────────────────── */
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16.5px;
+    line-height: 1.72;
+    text-wrap: pretty;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.25; margin: 0; text-wrap: balance; }
+  p { margin: 0; }
+  a { color: var(--accent-ink); text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent); text-underline-offset: 3px; }
+  a:hover { color: var(--accent); text-decoration-color: currentColor; }
+  img { max-width: 100%; display: block; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+  .wrap { max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
+  .skip {
+    position: absolute; left: -9999px; top: 0; z-index: 40;
+    background: var(--surface); color: var(--ink); padding: 10px 16px; border: 1px solid var(--hairline);
+  }
+  .skip:focus { left: 12px; top: 12px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* ── top bar ──────────────────────────────────────────────────────── */
+  .topbar {
+    position: sticky; top: 0; z-index: 30;
+    background: var(--paper);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .topbar__inner {
+    max-width: var(--maxw); margin-inline: auto; padding: 14px var(--gutter);
+    display: flex; align-items: center; gap: 20px;
+  }
+  .brand { display: flex; align-items: baseline; gap: 10px; text-decoration: none; color: var(--ink); flex: 0 0 auto; }
+  .brand b { font-family: var(--serif); font-size: 19px; font-weight: 600; letter-spacing: .04em; }
+  .brand span { font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .nav { display: flex; gap: 4px; margin-left: auto; }
+  .nav a {
+    font-size: 14.5px; color: var(--ink-soft); text-decoration: none; white-space: nowrap;
+    padding: 8px 12px; border-radius: 3px; border-bottom: 2px solid transparent;
+  }
+  .nav a:hover { color: var(--accent); }
+  .nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+  .controls { display: flex; align-items: center; gap: 10px; }
+  .seg { display: flex; border: 1px solid var(--hairline); border-radius: 3px; overflow: hidden; }
+  .seg button {
+    background: transparent; border: 0; cursor: pointer; min-width: 44px; min-height: 34px;
+    font-family: var(--mono); font-size: 12px; letter-spacing: .06em; color: var(--muted);
+  }
+  .seg button + button { border-left: 1px solid var(--hairline); }
+  .seg button[aria-pressed="true"] { background: var(--accent-wash); color: var(--accent-ink); font-weight: 600; }
+  .icon-btn {
+    width: 36px; height: 36px; display: grid; place-items: center; cursor: pointer;
+    background: transparent; border: 1px solid var(--hairline); border-radius: 3px; color: var(--ink-soft);
+  }
+  .icon-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .icon-btn svg { width: 17px; height: 17px; }
+  html[data-theme="light"] .icon-btn .icon-moon,
+  html[data-theme="dark"]  .icon-btn .icon-sun { display: none; }
+
+  /* 窄屏：顶栏压缩，避免导航换行 / narrow screens: compact top bar */
+  @media (max-width: 720px) {
+    .topbar__inner { gap: 10px; padding-block: 10px; }
+    .brand span { display: none; }
+    .brand b { font-size: 17px; }
+    .nav { gap: 0; }
+    .nav a { padding: 8px 9px; font-size: 14px; }
+    .seg button { min-width: 38px; min-height: 32px; }
+    .icon-btn { width: 32px; height: 32px; }
+  }
+  /* 小手机（≤420px）：再收一轮，保证顶栏不横向溢出 */
+  @media (max-width: 420px) {
+    :root { --gutter: 14px; }
+    .topbar__inner { gap: 8px; }
+    .brand b { font-size: 16px; }
+    .nav a { padding: 8px 6px; font-size: 13.5px; }
+    .seg button { min-width: 40px; }
+    .icon-btn { width: 30px; height: 30px; }
+  }
+
+  /* 超窄屏（≤360px）：导航换到第二行，彻底不溢出 */
+  @media (max-width: 360px) {
+    .topbar__inner { flex-wrap: wrap; row-gap: 2px; }
+    .nav { order: 3; margin-left: 0; width: 100%; }
+  }
+
+  /* ── views ────────────────────────────────────────────────────────── */
+  main { display: block; }
+  .view[hidden] { display: none; }
+  .view > .wrap { padding-block: clamp(34px, 6vw, 68px) 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .view:not([hidden]) > .wrap { animation: rise .34s cubic-bezier(.22,.8,.28,1) both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  }
+
+  /* ── hero ─────────────────────────────────────────────────────────── */
+  .hero { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
+  @media (max-width: 860px) { .hero { grid-template-columns: 1fr; } }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 18px;
+  }
+  .hero__name { font-size: clamp(40px, 7.4vw, 76px); letter-spacing: .02em; }
+  .hero__name-en {
+    display: block; margin-top: 10px;
+    font-family: var(--mono); font-size: clamp(12px, 1.5vw, 14px); font-weight: 400;
+    letter-spacing: .26em; text-transform: uppercase; color: var(--muted);
+  }
+  .hero__role { margin-top: 22px; font-size: 17.5px; color: var(--ink-soft); max-width: 34ch; }
+  .hero__motto {
+    margin-top: 16px; font-family: var(--serif); font-size: 15px; letter-spacing: .22em; color: var(--accent-ink);
+  }
+  .hero__actions { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px;
+    border: 1px solid var(--hairline); border-radius: 3px; background: var(--surface);
+    color: var(--ink); text-decoration: none; font-size: 14.5px;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn svg { width: 16px; height: 16px; }
+  .btn--solid { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn--solid:hover { background: var(--accent-ink); border-color: var(--accent-ink); color: #fff; }
+  html[data-theme="dark"] .btn--solid { color: #17161a; }
+
+  /* ── facts ────────────────────────────────────────────────────────── */
+  .facts { margin: 0; border-top: 1px solid var(--hairline); }
+  .facts div { display: grid; grid-template-columns: 6.6em 1fr; gap: 14px; padding: 11px 0; border-bottom: 1px solid var(--hairline-2); }
+  .facts dt { font-family: var(--mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+  .facts dd { margin: 0; font-size: 15.5px; }
+  .facts dd.tnum { font-variant-numeric: tabular-nums; }
+
+  /* ── sections ─────────────────────────────────────────────────────── */
+  .sheet { margin-top: clamp(44px, 7vw, 84px); }
+  .sec { padding-top: 34px; border-top: 1px solid var(--hairline); }
+  .sec + .sec { margin-top: 44px; }
+  .sec__head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 26px; }
+  .sec__no { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; color: var(--accent); }
+  .sec__title { font-size: clamp(21px, 2.6vw, 26px); letter-spacing: .03em; }
+  .sec__title em { font-family: var(--mono); font-style: normal; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-left: 12px; }
+  .sec__rule { flex: 1; height: 1px; background: var(--hairline); }
+
+  /* education */
+  .entry { display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: 20px; }
+  @media (max-width: 640px) { .entry { grid-template-columns: 1fr; gap: 6px; } }
+  .entry__date { font-family: var(--mono); font-size: 12.5px; letter-spacing: .06em; color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 5px; }
+  .entry__title { font-size: 21px; }
+  .entry__sub { margin-top: 8px; color: var(--ink-soft); }
+
+  /* timeline */
+  .timeline { list-style: none; margin: 0; padding: 0; }
+  .timeline li { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 20px; padding: 15px 0; border-bottom: 1px solid var(--hairline-2); }
+  .timeline li:first-child { border-top: 1px solid var(--hairline-2); }
+  @media (max-width: 640px) { .timeline li { grid-template-columns: 1fr; gap: 4px; } }
+  .timeline__date { font-family: var(--mono); font-size: 12.5px; color: var(--accent); font-variant-numeric: tabular-nums; padding-top: 4px; }
+  .timeline__title { font-family: var(--sans); font-size: 16.5px; font-weight: 600; line-height: 1.55; }
+  .timeline__role { margin-top: 4px; font-size: 14.5px; color: var(--muted); }
+
+  /* strengths */
+  .strengths { display: grid; gap: 0; }
+  .strengths > div { display: grid; grid-template-columns: 128px minmax(0, 1fr); gap: 20px; padding: 15px 0; border-bottom: 1px solid var(--hairline-2); }
+  .strengths > div:first-child { border-top: 1px solid var(--hairline-2); }
+  @media (max-width: 640px) { .strengths > div { grid-template-columns: 1fr; gap: 4px; } }
+  .strengths dt { font-family: var(--serif); font-size: 16px; color: var(--accent-ink); }
+  .strengths dd { margin: 0; color: var(--ink-soft); }
+
+  /* interests */
+  .interests { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--hairline-2); border: 1px solid var(--hairline-2); }
+  @media (max-width: 700px) { .interests { grid-template-columns: 1fr; } }
+  .interests > div { background: var(--paper); padding: 20px 22px; }
+  .interests h3 { font-size: 16px; margin-bottom: 6px; }
+  .interests h3::before { content: ""; display: inline-block; width: 14px; height: 1px; background: var(--accent); vertical-align: 4px; margin-right: 10px; }
+  .interests p { color: var(--muted); font-size: 15px; }
+
+  /* next-page strip */
+  .next {
+    margin-top: clamp(44px, 7vw, 76px);
+    display: flex; align-items: center; gap: 18px;
+    padding: 20px 22px; border: 1px solid var(--hairline); border-radius: 4px;
+    background: var(--surface); box-shadow: var(--shadow); text-decoration: none; color: var(--ink);
+  }
+  .next:hover { border-color: var(--accent); }
+  .next img { width: 56px; height: 56px; border-radius: 50%; border: 1px solid var(--hairline); flex: 0 0 auto; }
+  .next b { display: block; font-family: var(--serif); font-size: 17px; font-weight: 600; }
+  .next span { display: block; font-size: 14px; color: var(--muted); }
+  .next svg { width: 20px; height: 20px; margin-left: auto; color: var(--accent); flex: 0 0 auto; }
+
+  /* ── gallery view ─────────────────────────────────────────────────── */
+  .viewhead { max-width: 62ch; }
+  .viewhead h2 { font-size: clamp(28px, 4.4vw, 42px); }
+  .viewhead p.lede { margin-top: 16px; color: var(--ink-soft); }
+  .gallery { margin-top: clamp(28px, 4vw, 44px); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; align-items: start; }
+  .gallery--single { grid-template-columns: 1fr; }
+  .plate { margin: 0; }
+  .plate__frame {
+    border: 1px solid var(--hairline); border-radius: 4px; background: var(--surface);
+    padding: 10px; box-shadow: var(--shadow);
+  }
+  .plate__frame img { width: 100%; height: auto; border-radius: 2px; cursor: zoom-in; }
+  .gallery--single .plate__frame img { max-height: 68vh; object-fit: contain; }
+  .plate figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; margin-top: 14px; }
+  .plate figcaption strong { font-family: var(--serif); font-size: 16.5px; font-weight: 600; }
+  .plate figcaption em { font-family: var(--mono); font-style: normal; font-size: 12px; letter-spacing: .08em; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .plate figcaption a { font-size: 14px; margin-left: auto; }
+
+  /* lightbox */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 60; display: grid; place-items: center;
+    background: rgba(12,11,14,.9); padding: clamp(16px, 4vw, 48px);
+  }
+  .lightbox[hidden] { display: none; }
+  .lightbox img { max-width: 100%; max-height: 88vh; width: auto; border-radius: 3px; }
+  .lightbox__close {
+    position: absolute; top: 18px; right: 18px; min-width: 44px; min-height: 44px;
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.35); border-radius: 3px;
+    color: #fff; cursor: pointer; font-size: 20px; line-height: 1;
+  }
+  .lightbox__close:hover { background: rgba(255,255,255,.2); }
+
+  /* ── footer ───────────────────────────────────────────────────────── */
+  .foot {
+    margin-top: clamp(56px, 8vw, 104px); border-top: 1px solid var(--hairline);
+    background: var(--surface);
+  }
+  .foot__inner {
+    max-width: var(--maxw); margin-inline: auto; padding: 30px var(--gutter);
+    display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: baseline;
+    font-size: 14px; color: var(--muted);
+  }
+  .foot__motto { font-family: var(--serif); letter-spacing: .18em; color: var(--ink-soft); }
+  .foot nav { display: flex; flex-wrap: wrap; gap: 18px; margin-left: auto; }
+  .foot__copy { width: 100%; padding-top: 14px; border-top: 1px solid var(--hairline-2); font-family: var(--mono); font-size: 12px; letter-spacing: .05em; }
+  .is-placeholder { opacity: .55; }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main" data-en="Skip to content">跳到正文</a>
+
+<header class="topbar">
+  <div class="topbar__inner">
+    <a class="brand" href="#/home">
+      <b>朱赫逍凌</b>
+      <span>Zhu Hexiaoling</span>
+    </a>
+
+    <nav class="nav" aria-label="主导航 / Main navigation">
+      <a href="#/home" data-nav="home" data-en="Profile">主页</a>
+      <a href="#/gallery" data-nav="gallery" data-en="Gallery">图片</a>
+    </nav>
+
+    <div class="controls">
+      <div class="seg" role="group" aria-label="语言 / Language">
+        <button type="button" data-lang-btn="zh" aria-pressed="true" lang="zh">中</button>
+        <button type="button" data-lang-btn="en" aria-pressed="false" lang="en">EN</button>
+      </div>
+      <button type="button" class="icon-btn" id="themeBtn" aria-label="切换深色 / 浅色模式" title="切换深色 / 浅色模式">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ═══ 主页 / Profile ═══════════════════════════════════════════ -->
+  <section class="view" id="view-home" aria-label="主页 / Profile">
+    <div class="wrap">
+
+      <div class="hero">
+        <div>
+          <p class="eyebrow" data-en="Personal Resume · 2026">个人简历 · 2026</p>
+          <h1 class="hero__name">朱赫逍凌<span class="hero__name-en">Zhu Hexiaoling</span></h1>
+          <p class="hero__role" data-en="Shanghai Jiao Tong University · English (Comparative Literature and Cross-Cultural Studies), undergraduate.">上海交通大学 · 英语（比较文学与跨文化）· 本科在读</p>
+          <p class="hero__motto" data-en="Gratitude and Responsibility">饮水思源　爱国荣校</p>
+
+          <div class="hero__actions">
+            <a class="btn btn--solid" href="mailto:gezell1q@sjtu.edu.cn" id="mailBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6.5 9 6.2 9-6.2"/></svg>
+              <span data-en="Email me">邮件联系</span>
+            </a>
+            <a class="btn" href="#/gallery">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4.5" width="18" height="15" rx="2"/><circle cx="8.6" cy="9.6" r="1.6"/><path d="m4 17 5-5 4.2 4.2 3-2.6 3.8 3.4"/></svg>
+              <span data-en="See the pictures">看图</span>
+            </a>
+            <a class="btn" id="ghBtn" href="#" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.1.39-2 1.03-2.7-.1-.25-.45-1.28.1-2.67 0 0 .84-.27 2.75 1.03a9.5 9.5 0 0 1 5 0c1.91-1.3 2.75-1.03 2.75-1.03.55 1.39.2 2.42.1 2.67.64.7 1.03 1.6 1.03 2.7 0 3.85-2.35 4.7-4.58 4.95.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+              <span data-en="GitHub">GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <dl class="facts">
+          <div><dt data-en="Born">出生年月</dt><dd class="tnum">2004.04.19</dd></div>
+          <div><dt data-en="Ethnicity">民族</dt><dd data-en="Mongol">蒙古</dd></div>
+          <div><dt data-en="Political">政治面貌</dt><dd data-en="Communist Youth League member">团员</dd></div>
+          <div><dt data-en="School">在读院校</dt><dd data-en="Shanghai Jiao Tong University">上海交通大学</dd></div>
+          <div><dt data-en="Degree">学历</dt><dd data-en="Bachelor's (enrolled)">本科</dd></div>
+          <div><dt data-en="Phone">电话</dt><dd class="tnum" id="phoneCell">18648000548</dd></div>
+          <div><dt data-en="Email">邮箱</dt><dd><a href="mailto:gezell1q@sjtu.edu.cn">gezell1q@sjtu.edu.cn</a></dd></div>
+        </dl>
+      </div>
+
+      <div class="sheet">
+
+        <!-- 01 教育背景 -->
+        <section class="sec">
+          <div class="sec__head">
+            <span class="sec__no">01</span>
+            <h2 class="sec__title">教育背景<em data-en="Education">Education</em></h2>
+            <span class="sec__rule" aria-hidden="true"></span>
+          </div>
+          <div class="entry">
+            <p class="entry__date">2023.09 — 2027.06</p>
+            <div>
+              <h3 class="entry__title" data-en="Shanghai Jiao Tong University">上海交通大学</h3>
+              <p class="entry__sub" data-en="B.A. in English — Comparative Literature and Cross-Cultural Studies (graduating June 2027)">英语（比较文学与跨文化）· 本科，预计 2027 年 6 月毕业</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 02 校园经历 -->
+        <section class="sec">
+          <div class="sec__head">
+            <span class="sec__no">02</span>
+            <h2 class="sec__title">校园经历<em data-en="Campus Experience">Campus Experience</em></h2>
+            <span class="sec__rule" aria-hidden="true"></span>
+          </div>
+          <ol class="timeline">
+            <li>
+              <p class="timeline__date">2025</p>
+              <div>
+                <h3 class="timeline__title" data-en="Entrepreneurship project “Qiji Yuntian” — an internet-plus experiment in rural agriculture and cultural industry">创业项目《杞迹云田》互联网农村融合农业文化产业实验项目</h3>
+                <p class="timeline__role" data-en="Key organizing member">担任重要组织成员</p>
+              </div>
+            </li>
+            <li>
+              <p class="timeline__date">2024</p>
+              <div>
+                <h3 class="timeline__title" data-en="Innovation practice programme — “Public Attitudes and Policy Analysis of China's Gaming Industry”">创新实践计划《中国游戏产业的公众态度与政策解析》</h3>
+                <p class="timeline__role" data-en="Core project member">担任项目主要成员</p>
+              </div>
+            </li>
+            <li>
+              <p class="timeline__date">2024</p>
+              <div>
+                <h3 class="timeline__title" data-en="Research project “How to Tell China's Story Well” — based on Volume IV of Xi Jinping: The Governance of China">科研项目《如何讲好中国故事：以〈习近平谈治国理政〉第四卷为蓝本》</h3>
+                <p class="timeline__role" data-en="Project member carrying key responsibilities">担任项目成员，承担重要工作</p>
+              </div>
+            </li>
+            <li>
+              <p class="timeline__date">2024</p>
+              <div>
+                <h3 class="timeline__title" data-en="Practice project “New Voice of an Old Temple: the Cultural Inheritance and Preservation of Yangzong Monastery”">实践活动《古寺新韵：央宗寺文化传承与保护》</h3>
+                <p class="timeline__role" data-en="Literary adviser">担任项目文学指导</p>
+              </div>
+            </li>
+            <li>
+              <p class="timeline__date">2024</p>
+              <div>
+                <h3 class="timeline__title" data-en="Practice project “Silver Hair, Young Hearts — Youth and Elders Hand in Hand in a New Era”">实践活动《韶华银丝话初心，青老携手新时代》</h3>
+                <p class="timeline__role" data-en="Organizing member, in charge of fieldwork">担任项目组织成员，负责实地考察</p>
+              </div>
+            </li>
+            <li>
+              <p class="timeline__date">2024</p>
+              <div>
+                <h3 class="timeline__title" data-en="Practice project — development survey of the “Wenxin Yiyan” cultural-creative distribution centre">实践活动《“文心一言”文创集散中心发展调研》</h3>
+                <p class="timeline__role" data-en="Organizing member, in charge of fieldwork">担任项目组织成员，负责实地考察</p>
+              </div>
+            </li>
+            <li>
+              <p class="timeline__date">2024.10</p>
+              <div>
+                <h3 class="timeline__title" data-en="“Warm Heart Plan” — knitting scarves for children in mountain villages">暖心计划：为山区小朋友织围巾活动</h3>
+                <p class="timeline__role" data-en="Team leader">担任小组长</p>
+              </div>
+            </li>
+            <li>
+              <p class="timeline__date">2024.06</p>
+              <div>
+                <h3 class="timeline__title" data-en="Paper Game Workshop — hands-on session in pitching a game prototype">纸上游戏工坊：游戏原型立项体验活动</h3>
+                <p class="timeline__role" data-en="Participant">参与成员</p>
+              </div>
+            </li>
+            <li>
+              <p class="timeline__date">2024.06</p>
+              <div>
+                <h3 class="timeline__title" data-en="Linguistics speech test, School of Foreign Languages, SJTU — contributed key data">上海交通大学外国语学院语言学语音测试</h3>
+                <p class="timeline__role" data-en="Provided key information">提供关键信息</p>
+              </div>
+            </li>
+            <li>
+              <p class="timeline__date">2023.11</p>
+              <div>
+                <h3 class="timeline__title" data-en="Repeatedly helped organise the SJTU Graduate Freshman Dragon Boat Race &amp; Water Sports Carnival">多次参与组织上海交通大学研究生新生龙舟赛暨水上运动嘉年华</h3>
+                <p class="timeline__role" data-en="Organising staff">组织工作人员</p>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <!-- 03 自我评价 -->
+        <section class="sec">
+          <div class="sec__head">
+            <span class="sec__no">03</span>
+            <h2 class="sec__title">自我评价<em data-en="Strengths">Strengths</em></h2>
+            <span class="sec__rule" aria-hidden="true"></span>
+          </div>
+          <dl class="strengths">
+            <div>
+              <dt data-en="Learning">学习能力</dt>
+              <dd data-en="Picks up whatever a new research area demands quickly, with strong curiosity and initiative across disciplines.">在不同项目中快速掌握不同研究板块所需能力，对跨专业领域有极强的学习兴趣及主动性。</dd>
+            </div>
+            <div>
+              <dt data-en="Leadership">领导能力</dt>
+              <dd data-en="Has repeatedly coordinated practice projects; communicates in several languages and leads teams well.">曾多次担任实践项目对接组织人员，具备多语种沟通能力，并且具有出色的组织领导能力。</dd>
+            </div>
+            <div>
+              <dt data-en="Data analysis">数据分析能力</dt>
+              <dd data-en="Took part in a policy-compilation project during an internship: collects and analyses data quickly and accurately to support decisions.">在实习期间参与政策整理项目，能够快速准确地收集和分析数据，为决策提供支持。</dd>
+            </div>
+            <div>
+              <dt data-en="Communication">沟通能力</dt>
+              <dd data-en="In cultural-communication projects, engaged people of very different backgrounds both online and offline.">在文化传播项目中，通过线下和线上不同渠道与不同社会身份的人员交流，积累了丰富的沟通经验。</dd>
+            </div>
+            <div>
+              <dt data-en="Social responsibility">社会责任感</dt>
+              <dd data-en="Takes an active part in social practice and follows social issues closely.">积极参与社会实践，关注社会问题，具备较强的社会责任感。</dd>
+            </div>
+          </dl>
+        </section>
+
+        <!-- 04 兴趣爱好 -->
+        <section class="sec">
+          <div class="sec__head">
+            <span class="sec__no">04</span>
+            <h2 class="sec__title">兴趣爱好<em data-en="Interests">Interests</em></h2>
+            <span class="sec__rule" aria-hidden="true"></span>
+          </div>
+          <div class="interests">
+            <div>
+              <h3 data-en="Music">音乐</h3>
+              <p data-en="Listens across many genres — refining an eye for beauty and a settled temper.">爱好不同种类的音乐作品，提高审美能力，陶冶情操。</p>
+            </div>
+            <div>
+              <h3 data-en="Film">电影</h3>
+              <p data-en="Appreciates classic cinema for what it shows about differences and common ground between cultures.">鉴赏经典影视作品，了解不同文化之间的差异以及共性。</p>
+            </div>
+            <div>
+              <h3 data-en="Reading">阅读</h3>
+              <p data-en="Reads widely across cultures and fields, steadily widening both knowledge and cultural literacy.">广泛阅读不同文化背景和知识领域的书籍，不断提升自己的知识储备和文化素养。</p>
+            </div>
+            <div>
+              <h3 data-en="Sport">运动</h3>
+              <p data-en="A keen badminton player who keeps a long-term, regular fitness routine for self-discipline.">热爱羽毛球，并保持长期且规律的健身，以增强自我约束力和自我管理能力。</p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <a class="next" href="#/gallery">
+        <img src="assets/favicon.png" alt="" width="180" height="180">
+        <span>
+          <b data-en="Gallery">图片</b>
+          <span data-en="A picture from the desktop “Peppa Pig” folder">桌面「小猪佩奇」文件夹里的图片</span>
+        </span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ═══ 图片 / Gallery ══════════════════════════════════════════ -->
+  <section class="view" id="view-gallery" aria-label="图片 / Gallery" hidden>
+    <div class="wrap">
+      <div class="viewhead">
+        <p class="eyebrow" data-en="Gallery">图片</p>
+        <h2 data-en="Peppa Pig">小猪佩奇</h2>
+        <p class="lede" data-en="Kept as-is from the desktop folder. Click a picture to enlarge it, or open the original file. To add more, edit the pictures array at the top of the script in index.html.">原图取自桌面「小猪佩奇」文件夹。点击图片可放大，也可以直接打开原图。想再加图片，编辑 index.html 脚本里的 pictures 列表即可。</p>
+      </div>
+      <div class="gallery" id="gallery"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot__inner">
+    <p class="foot__motto">饮水思源　爱国荣校</p>
+    <nav aria-label="其他链接 / Other links">
+      <a href="mailto:gezell1q@sjtu.edu.cn" data-en="Email">邮箱</a>
+      <a id="footGh" href="https://github.com" target="_blank" rel="noopener" data-en="GitHub">GitHub</a>
+      <a id="footRepo" href="https://github.com" target="_blank" rel="noopener" data-en="Site source">本站源码</a>
+    </nav>
+    <p class="foot__copy">© <span id="year">2026</span> 朱赫逍凌 · Zhu Hexiaoling</p>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="放大查看 / Enlarged view">
+  <button type="button" class="lightbox__close" id="lightboxClose" aria-label="关闭 / Close">×</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script src="site.config.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var CFG = window.SITE_CONFIG || {};
+  var PLACEHOLDER = /^(your-?github-?(username)?|待填写|)$/i;
+
+  /* ── 图片列表：加图片只改这里 ──────────────────────────────────
+     pictures: [{ webp, png, w, h, zh, en, note }]
+     ─────────────────────────────────────────────────────────── */
+  var pictures = [
+    {
+      webp: "assets/peppa-pig.webp",
+      png: "assets/peppa-pig.png",
+      w: 1700, h: 1360,
+      zh: "小猪佩奇", en: "Peppa Pig",
+      note: "1700 × 1360 · PNG / WebP",
+      altZh: "小猪佩奇插画：蓝天白云下，佩奇张开双臂站在草地上，右上角有太阳。",
+      altEn: "Peppa Pig under a blue sky, arms open on green grass with a sun in the corner."
+    }
+  ];
+
+  /* ── 文案 ──────────────────────────────────────────────────── */
+  var META = {
+    zh: { home: "朱赫逍凌 · 个人主页", gallery: "图片 · 朱赫逍凌",
+          desc: "朱赫逍凌的个人主页 —— 上海交通大学英语（比较文学与跨文化）专业，中英双语简历。" },
+    en: { home: "Zhu Hexiaoling — Profile", gallery: "Gallery — Zhu Hexiaoling",
+          desc: "Personal site of Zhu Hexiaoling, Shanghai Jiao Tong University — English (Comparative Literature and Cross-Cultural Studies)." }
+  };
+  var THEME_LABEL = { zh: { toDark: "切换到深色模式", toLight: "切换到浅色模式" },
+                      en: { toDark: "Switch to dark mode", toLight: "Switch to light mode" } };
+  var GH_TIP = { zh: "在 site.config.js 里填入你的 GitHub 用户名", en: "Put your GitHub username in site.config.js" };
+
+  /* localStorage 安全包装（隐私模式下也不报错） */
+  function store_(k, v) {
+    try {
+      if (v === undefined) return localStorage.getItem(k);
+      localStorage.setItem(k, v); return v;
+    } catch (e) { return null; }
+  }
+  var store = { get: function (k) { return store_(k); }, set: function (k, v) { store_(k, v); } };
+
+  // ?lang=en / ?lang=zh 可以生成可分享的链接；否则记住上次选择
+  var qLang = new URLSearchParams(location.search).get("lang");
+  var lang = (qLang === "en" || qLang === "zh") ? qLang
+           : (store.get("zhxl.lang") === "en" ? "en" : "zh");
+
+
+  var html = document.documentElement;
+  var themeBtn = document.getElementById("themeBtn");
+  var lightbox = document.getElementById("lightbox");
+  var lightboxImg = document.getElementById("lightboxImg");
+  var lastFocus = null;
+
+  /* ── 语言 ──────────────────────────────────────────────────── */
+  function applyLang(next) {
+    lang = next;
+    store.set("zhxl.lang", lang);
+    html.lang = lang === "en" ? "en" : "zh-CN";
+
+    document.querySelectorAll("[data-en]").forEach(function (el) {
+      if (el.dataset.zh === undefined) el.dataset.zh = el.textContent.trim();
+      el.textContent = lang === "en" ? el.dataset.en : el.dataset.zh;
+    });
+    document.querySelectorAll("[data-en-alt]").forEach(function (el) {
+      if (el.dataset.altZh === undefined) el.dataset.altZh = el.getAttribute("alt") || "";
+      el.setAttribute("alt", lang === "en" ? el.dataset.enAlt : el.dataset.altZh);
+    });
+    document.querySelectorAll("[data-lang-btn]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.langBtn === lang));
+    });
+
+    var meta = META[lang], view = currentView();
+    document.title = meta[view];
+    var d = document.querySelector('meta[name="description"]');
+    if (d) d.setAttribute("content", meta.desc);
+
+    var t = html.dataset.theme === "dark" ? THEME_LABEL[lang].toLight : THEME_LABEL[lang].toDark;
+    themeBtn.setAttribute("aria-label", t);
+    themeBtn.setAttribute("title", t);
+  }
+
+  /* ── 主题 ──────────────────────────────────────────────────── */
+  function applyTheme(next) {
+    html.dataset.theme = next;
+    store.set("zhxl.theme", next);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute("content", next === "dark" ? "#121114" : "#faf9f6");
+    var t = next === "dark" ? THEME_LABEL[lang].toLight : THEME_LABEL[lang].toDark;
+    themeBtn.setAttribute("aria-label", t);
+    themeBtn.setAttribute("title", t);
+  }
+
+  /* ── 路由：#/home  #/gallery ───────────────────────────────── */
+  function currentView() {
+    var h = (location.hash || "").replace(/^#\/?/, "");
+    return h === "gallery" ? "gallery" : "home";
+  }
+  function route() {
+    var view = currentView();
+    document.querySelectorAll(".view").forEach(function (s) {
+      s.hidden = s.id !== "view-" + view;
+    });
+    document.querySelectorAll("[data-nav]").forEach(function (a) {
+      if (a.dataset.nav === view) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    });
+    document.title = META[lang][view];
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+
+  /* ── 图片页 ───────────────────────────────────────────────── */
+  function renderGallery() {
+    var box = document.getElementById("gallery");
+    if (!box) return;
+    box.className = "gallery" + (pictures.length === 1 ? " gallery--single" : "");
+    box.innerHTML = "";
+    pictures.forEach(function (p, i) {
+      var fig = document.createElement("figure");
+      fig.className = "plate";
+
+      var frame = document.createElement("div");
+      frame.className = "plate__frame";
+
+      var pic = document.createElement("picture");
+      if (p.webp) {
+        var src = document.createElement("source");
+        src.srcset = p.webp;
+        src.type = "image/webp";
+        pic.appendChild(src);
+      }
+      var img = document.createElement("img");
+      img.src = p.png || p.webp;
+      img.width = p.w; img.height = p.h;
+      img.loading = i === 0 ? "eager" : "lazy";
+      img.decoding = "async";
+      img.alt = lang === "en" ? (p.altEn || p.en) : (p.altZh || p.zh);
+      img.dataset.enAlt = p.altEn || p.en;
+      img.dataset.altZh = p.altZh || p.zh;
+      img.setAttribute("role", "button");
+      img.setAttribute("tabindex", "0");
+      pic.appendChild(img);
+      frame.appendChild(pic);
+      fig.appendChild(frame);
+
+      var cap = document.createElement("figcaption");
+      var strong = document.createElement("strong");
+      strong.textContent = lang === "en" ? p.en : p.zh;
+      strong.dataset.en = p.en; strong.dataset.zh = p.zh;
+      var em = document.createElement("em");
+      em.textContent = p.note || "";
+      var open = document.createElement("a");
+      open.href = p.png || p.webp;
+      open.target = "_blank";
+      open.rel = "noopener";
+      open.textContent = lang === "en" ? "Open original →" : "打开原图 →";
+      cap.appendChild(strong); cap.appendChild(em); cap.appendChild(open);
+      fig.appendChild(cap);
+
+      box.appendChild(fig);
+    });
+  }
+
+  function openLightbox(img) {
+    lastFocus = document.activeElement;
+    lightboxImg.src = img.currentSrc || img.src;
+    lightboxImg.alt = img.alt;
+    lightbox.hidden = false;
+    document.getElementById("lightboxClose").focus();
+  }
+  function closeLightbox() {
+    lightbox.hidden = true;
+    lightboxImg.src = "";
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  /* ── 配置接线 ─────────────────────────────────────────────── */
+  function wireConfig() {
+    var user = (CFG.githubUsername || "").trim();
+    var repo = (CFG.githubRepo || "").trim();
+    var hasUser = user && !PLACEHOLDER.test(user);
+    var profile = hasUser ? "https://github.com/" + user : "https://github.com";
+    var repoUrl = hasUser && repo ? profile + "/" + repo : profile;
+
+    [["ghBtn", profile], ["footGh", profile], ["footRepo", repoUrl]].forEach(function (pair) {
+      var el = document.getElementById(pair[0]);
+      if (!el) return;
+      el.href = pair[1];
+      if (!hasUser) {
+        el.classList.add("is-placeholder");
+        el.title = GH_TIP[lang];
+        el.setAttribute("aria-disabled", "true");
+      }
+    });
+
+    var mail = CFG.email || "gezell1q@sjtu.edu.cn";
+    ["mailBtn"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.href = "mailto:" + mail;
+    });
+
+    if (CFG.showPhone === false) {
+      var cell = document.getElementById("phoneCell");
+      if (cell && cell.parentElement) cell.parentElement.hidden = true;
+    }
+
+    if (CFG.siteUrl) {
+      var canon = document.querySelector('link[rel="canonical"]');
+      if (!canon) {
+        canon = document.createElement("link");
+        canon.rel = "canonical";
+        document.head.appendChild(canon);
+      }
+      canon.href = CFG.siteUrl;
+    }
+  }
+
+  /* ── 启动 ─────────────────────────────────────────────────── */
+  renderGallery();
+  wireConfig();
+  applyLang(lang);
+  route();
+  document.getElementById("year").textContent = String(new Date().getFullYear());
+
+  themeBtn.addEventListener("click", function () {
+    applyTheme(html.dataset.theme === "dark" ? "light" : "dark");
+  });
+  document.querySelectorAll("[data-lang-btn]").forEach(function (b) {
+    b.addEventListener("click", function () { applyLang(b.dataset.langBtn); renderGallery(); });
+  });
+  window.addEventListener("hashchange", route);
+
+  document.getElementById("gallery").addEventListener("click", function (e) {
+    if (e.target.tagName === "IMG") openLightbox(e.target);
+  });
+  document.getElementById("gallery").addEventListener("keydown", function (e) {
+    if ((e.key === "Enter" || e.key === " ") && e.target.tagName === "IMG") {
+      e.preventDefault();
+      openLightbox(e.target);
+    }
+  });
+  document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", function (e) { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !lightbox.hidden) closeLightbox();
+  });
+})();
+</script>
+</body>
+</html>
