@@ -13,9 +13,11 @@ personal-homepage/
 ├── index.html            站点本体：两个页面（主页 / 图片）、双语、主题、路由
 ├── site.config.js        ← 只改这里就能接入你的 GitHub
 ├── assets/
+│   ├── avatar.png        个人图片/头像（512×512，从原图裁出的猪头，主页左上角圆形显示）
+│   ├── avatar.webp       同图 WebP 版（网页优先加载它）
 │   ├── peppa-pig.png     小猪佩奇原图（1700×1360，来自桌面「小猪佩奇」文件夹）
 │   ├── peppa-pig.webp    同图的 WebP 版（网页优先加载它）
-│   └── favicon.png       浏览器标签页图标（从原图裁出的猪头）
+│   └── favicon.png       浏览器标签页图标（与头像同一张裁剪）
 ├── .nojekyll             告诉 GitHub Pages 不要用 Jekyll 处理（保留即可）
 └── README.md
 ```
@@ -82,6 +84,7 @@ git push -u origin main
 | 中英文字 | `index.html` 里：中文写在标签里，英文写在同一个标签的 `data-en="..."` 属性里，例如 `<p data-en="Education">教育背景</p>` |
 | GitHub 用户名、邮箱、是否显示手机号 | `site.config.js` |
 | 图片页的图片 | `index.html` 底部脚本里的 `pictures` 数组，照着加一项：`{ webp, png, w, h, zh, en, note, altZh, altEn }`（`webp` 可省） |
+| 个人头像 | 换掉 `assets/avatar.png` 与 `assets/avatar.webp`（正方形，建议 512×512；圆形遮罩会切掉四角，人物别贴边） |
 | 配色 | `index.html` 顶部 `<style>` 的 `:root` 变量（`--accent` 是交大红 `#9e1b32`） |
 
 加新图片时把文件丢进 `assets/`，然后在 `pictures` 数组里补一项即可；只有一张图时会自动放大显示，多张会自动排成网格。

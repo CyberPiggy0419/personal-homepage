@@ -160,6 +160,15 @@
     font-family: var(--mono); font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase;
     color: var(--muted); margin-bottom: 18px;
   }
+  /* 个人图片 / portrait */
+  .hero__id { display: flex; align-items: center; gap: clamp(14px, 2.2vw, 26px); }
+  .hero__name-block { min-width: 0; }
+  .avatar {
+    flex: 0 0 auto;
+    width: clamp(96px, 13vw, 168px); height: auto; aspect-ratio: 1 / 1;
+    border-radius: 50%; object-fit: cover; background: var(--surface);
+    border: 1px solid var(--hairline); box-shadow: var(--shadow);
+  }
   .hero__name { font-size: clamp(40px, 7.4vw, 76px); letter-spacing: .02em; }
   .hero__name-en {
     display: block; margin-top: 10px;
@@ -329,8 +338,17 @@
 
       <div class="hero">
         <div>
-          <p class="eyebrow" data-en="Personal Resume · 2026">个人简历 · 2026</p>
-          <h1 class="hero__name">朱赫逍凌<span class="hero__name-en">Zhu Hexiaoling</span></h1>
+          <div class="hero__id">
+            <picture>
+              <source srcset="assets/avatar.webp" type="image/webp">
+              <img class="avatar" src="assets/avatar.png" width="512" height="512"
+                   alt="小猪佩奇头像" data-en-alt="Peppa Pig portrait">
+            </picture>
+            <div class="hero__name-block">
+              <p class="eyebrow" data-en="Personal Resume · 2026">个人简历 · 2026</p>
+              <h1 class="hero__name">朱赫逍凌<span class="hero__name-en">Zhu Hexiaoling</span></h1>
+            </div>
+          </div>
           <p class="hero__role" data-en="Shanghai Jiao Tong University · English (Comparative Literature and Cross-Cultural Studies), undergraduate.">上海交通大学 · 英语（比较文学与跨文化）· 本科在读</p>
           <p class="hero__motto" data-en="Gratitude and Responsibility">饮水思源　爱国荣校</p>
 
